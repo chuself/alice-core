@@ -1,15 +1,26 @@
 {
   "name": "alice-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "type": "module",
   "description": "The Alice engine: plans, writes, renders, narrates, publishes and replies. Installed by every tenant.",
-  "bin": { "alice": "bin/alice.js" },
+  "bin": {
+    "alice": "bin/alice.js"
+  },
   "exports": {
     ".": "./src/index.js",
+    "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
-  "files": ["bin", "src", "README.md"],
-  "engines": { "node": ">=22" },
-  "dependencies": { "playwright": "^1.49.0" }
+  "files": [
+    "bin",
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
 }
