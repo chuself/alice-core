@@ -43,7 +43,7 @@ export async function writeOffset(offset) {
  */
 export async function fetchUpdates(offset, timeoutSec = 0) {
   const res = await fetch(
-    `https://api.telegram.org/bot${botToken()}/getUpdates?offset=${offset}&timeout=${timeoutSec}`,
+    `${(process.env.TELEGRAM_API_BASE || "https://api.telegram.org").replace(/\/$/, "")}/bot${botToken()}/getUpdates?offset=${offset}&timeout=${timeoutSec}`,
     { signal: AbortSignal.timeout((timeoutSec + 20) * 1000) }
   );
   const json = await res.json();

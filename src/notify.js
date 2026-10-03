@@ -5,7 +5,9 @@
  * Everything no-ops silently when unconfigured, so the pipeline never fails
  * just because notifications are not set up yet.
  */
-const API = "https://api.telegram.org/bot";
+// TELEGRAM_API_BASE lets the command center stand in for Telegram (same API).
+const TG = () => (process.env.TELEGRAM_API_BASE || "https://api.telegram.org").replace(/\/$/, "");
+const API = () => `${TG()}/bot`;
 
 export function notifyConfigured() {
   return Boolean(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID);
@@ -45,7 +47,7 @@ export async function notify(text, { silent = false, mirror = true } = {}) {
 }
 
 async function sendTelegram(text, silent) {
-  const res = await fetch(`${API}${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+  const res = await fetch(`${API()}${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
@@ -113,7 +115,7 @@ export async function sendVideo(videoUrl, caption) {
     console.log(`[video not sent — Telegram not configured] ${videoUrl}`);
     return false;
   }
-  const res = await fetch(`${API}${process.env.TELEGRAM_BOT_TOKEN}/sendVideo`, {
+  const res = await fetch(`${API()}${process.env.TELEGRAM_BOT_TOKEN}/sendVideo`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
